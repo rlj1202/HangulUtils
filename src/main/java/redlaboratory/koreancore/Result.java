@@ -2,14 +2,14 @@ package redlaboratory.koreancore;
 
 public class Result {
 	
-	public String STR;
-	public int CURSOR;
-	public int SELECTION;
+	public String str;
+	public int cursor;
+	public int selection;
 	
 	public Result(String str, int cursorPos, int selecPos) {
-		STR = str;
-		CURSOR = cursorPos;
-		SELECTION = selecPos;
+		this.str = str;
+		this.cursor = cursorPos;
+		this.selection = selecPos;
 	}
 	
 }

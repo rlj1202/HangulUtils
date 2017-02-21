@@ -1,24 +1,20 @@
 package redlaboratory.koreancore;
 
 public class KoreanCore {
-
-	private static boolean koreanMode;
-	private static boolean combiningMode;
 	
-	private static char[] canBeConvertedToKorean;
-	private static char[] canBeConvertedToEnglish;
+	private static final char[] canBeConvertedToKorean;
+	private static final char[] canBeConvertedToEnglish;
 
-	private static char[] firstChar;
-	private static char[] middleChar;
-	private static char[] lastChar;
+	private static final char[] firstChar;
+	private static final char[] middleChar;
+	private static final char[] lastChar;
 
-	private static char[] multiMiddleChar;
-	private static char[] multiLastChar;
+	private static final char[] multiMiddleChar;
+	private static final char[] multiLastChar;
+	
+	private static KoreanCore instance;
 
 	static {
-		koreanMode = false;
-		combiningMode = false;
-		
 		canBeConvertedToKorean = new char[] {
 				'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
 				'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
@@ -91,25 +87,39 @@ public class KoreanCore {
 				'\u3139', '\u314d', '\u313f',
 				'\u3139', '\u314e', '\u3140',
 				'\u3142', '\u3145', '\u3144',};
+		
+		instance = new KoreanCore();
 	}
-
-	public static boolean switchInputMode() {
+	
+	private boolean koreanMode;
+	private boolean combiningMode;
+	
+	public KoreanCore() {
+		koreanMode = false;
+		combiningMode = false;
+	}
+	
+	public static KoreanCore getDefaultInstance() {
+		return instance;
+	}
+	
+	public boolean switchInputMode() {
 		return koreanMode = !koreanMode;
 	}
 	
-	public static void switchCombiningMode(boolean combiningMode) {
-		KoreanCore.combiningMode = combiningMode;
+	public void switchCombiningMode(boolean combiningMode) {
+		this.combiningMode = combiningMode;
 	}
 
-	public static boolean isKoreanInputMode() {
+	public boolean isKoreanInputMode() {
 		return koreanMode;
 	}
 	
-	public static boolean isCombiningMode() {
+	public boolean isCombiningMode() {
 		return combiningMode;
 	}
 
-	public static int getEnglishCharIndex(char c) {
+	private int getEnglishCharIndex(char c) {
 		for (int i = 0; i < canBeConvertedToKorean.length; i++) {
 			if (canBeConvertedToKorean[i] == c)
 				return i;
@@ -118,56 +128,56 @@ public class KoreanCore {
 		return -1;
 	}
 
-	public static int getKoreanCharIndex(char c) {
-		for (int i = 0; i < canBeConvertedToEnglish.length; i++) {
-			if (canBeConvertedToEnglish[i] == c)
-				return i;
-		}
+//	private int getKoreanCharIndex(char c) {
+//		for (int i = 0; i < canBeConvertedToEnglish.length; i++) {
+//			if (canBeConvertedToEnglish[i] == c)
+//				return i;
+//		}
+//
+//		return -1;
+//	}
 
-		return -1;
-	}
+//	private char getEnglishChar(int index) {
+//		return canBeConvertedToKorean[index];
+//	}
 
-	public static char getEnglishChar(int index) {
-		return canBeConvertedToKorean[index];
-	}
-
-	public static char getKoreanChar(int index) {
+	private char getKoreanChar(int index) {
 		return canBeConvertedToEnglish[index];
 	}
 
-	public static boolean isAbleToBeConvertedToKorean(char c) {
+	private boolean isAbleToBeConvertedToKorean(char c) {
 		int index = getEnglishCharIndex(c);
 
 		return (index != -1) ? true : false;
 	}
 
-	public static boolean isAbleToBeConvertedToEnglish(char c) {
-		int index = getKoreanCharIndex(c);
+//	private boolean isAbleToBeConvertedToEnglish(char c) {
+//		int index = getKoreanCharIndex(c);
+//
+//		return (index != -1) ? true : false;
+//	}
 
-		return (index != -1) ? true : false;
-	}
-
-	public static char converteToKorean(char c) {
+	private char converteToKorean(char c) {
 		int index = getEnglishCharIndex(c);
 
 		return getKoreanChar(index);
 	}
 
-	public static char converteToEnglish(char c) {
-		int index = getKoreanCharIndex(c);
+//	private char converteToEnglish(char c) {
+//		int index = getKoreanCharIndex(c);
+//
+//		return getEnglishChar(index);
+//	}
 
-		return getEnglishChar(index);
-	}
-
-	public static boolean isKoreanChar(char c) {
+	private boolean isKoreanChar(char c) {
 		return (0xAC00 <= c && c <= 0xD7AF) ? true : false;
 	}
 
-	public static boolean isKoreanJamoChar(char c) {
+	private boolean isKoreanJamoChar(char c) {
 		return (0x3130 <= c && c <= 0x318F) ? true : false;
 	}
 
-	public static char[] splitKoreanChar(char c) {
+	private char[] splitKoreanChar(char c) {
 		int base = c - 0xAC00;
 
 		/*
@@ -193,7 +203,7 @@ public class KoreanCore {
 						};
 	}
 
-	public static char combineKoreanChar(char[] chars) {
+	private char combineKoreanChar(char[] chars) {
 		if (chars[0] != ' ' && chars[1] == ' ' && chars[2] == ' ')
 			return chars[0];
 		if (chars[0] == ' ' && chars[1] != ' ' && chars[2] == ' ')
@@ -217,7 +227,7 @@ public class KoreanCore {
 		return c;
 	}
 
-	public static int getFirstCharIndex(char c) {
+	private int getFirstCharIndex(char c) {
 		for (int i = 0; i < firstChar.length; i++) {
 			if (firstChar[i] == c)
 				return i;
@@ -226,7 +236,7 @@ public class KoreanCore {
 		return -1;
 	}
 
-	public static int getMiddleCharIndex(char c) {
+	private int getMiddleCharIndex(char c) {
 		for (int i = 0; i < middleChar.length; i++) {
 			if (middleChar[i] == c)
 				return i;
@@ -235,7 +245,7 @@ public class KoreanCore {
 		return -1;
 	}
 
-	public static int getLastCharIndex(char c) {
+	private int getLastCharIndex(char c) {
 		for (int i = 0; i < lastChar.length; i++) {
 			if (lastChar[i] == c)
 				return i;
@@ -244,25 +254,25 @@ public class KoreanCore {
 		return -1;
 	}
 
-	public static boolean isFirstChar(char c) {
+	private boolean isFirstChar(char c) {
 		int i = getFirstCharIndex(c);
 
 		return (i != -1) ? true : false;
 	}
 
-	public static boolean isMiddleChar(char c) {
+	private boolean isMiddleChar(char c) {
 		int i = getMiddleCharIndex(c);
 
 		return (i != -1) ? true : false;
 	}
 
-	public static boolean isLastChar(char c) {
+	private boolean isLastChar(char c) {
 		int i = getLastCharIndex(c);
 
 		return (i != -1) ? true : false;
 	}
 
-	public static char[] splitMiddleChar(char c) {
+	private char[] splitMiddleChar(char c) {
 		char[] chars = null;
 
 		for (int i = 0; i < multiMiddleChar.length / 3; i++) {
@@ -275,7 +285,7 @@ public class KoreanCore {
 		return chars;
 	}
 
-	public static char[] splitLastChar(char c) {
+	private char[] splitLastChar(char c) {
 		char[] chars = null;
 
 		for (int i = 0; i < multiLastChar.length / 3; i++) {
@@ -288,7 +298,7 @@ public class KoreanCore {
 		return chars;
 	}
 
-	public static char combineMiddleChar(char a, char b) {
+	private char combineMiddleChar(char a, char b) {
 		for (int m = 0; m < multiMiddleChar.length / 3; m++) {
 			if (multiMiddleChar[m * 3] == a && multiMiddleChar[m * 3 + 1] == b) {
 				return multiMiddleChar[m * 3 + 2];
@@ -298,7 +308,7 @@ public class KoreanCore {
 		return ' ';
 	}
 
-	public static char combineLastChar(char a, char b) {
+	private char combineLastChar(char a, char b) {
 		for (int m = 0; m < multiLastChar.length / 3; m++) {
 			if (multiLastChar[m * 3] == a && multiLastChar[m * 3 + 1] == b) {
 				return multiLastChar[m * 3 + 2];
@@ -308,14 +318,14 @@ public class KoreanCore {
 		return ' ';
 	}
 
-	public static boolean isEmpty(char[] chars) {
+	private boolean isEmpty(char[] chars) {
 		if (chars == null) return true;
 		if (chars[0] == ' ' && chars[1] == ' ' && chars[2] == ' ') return true;
 
 		return false;
 	}
 	
-	public static Result writeKorean(String str, int cursorPos, int selecPos, char c) {
+	public Result writeKorean(String str, int cursorPos, int selecPos, char c) {
 		StringBuilder sb = new StringBuilder(str);
 		int newCursorPos = cursorPos;
 		int newSelecPos = selecPos;
@@ -464,7 +474,7 @@ public class KoreanCore {
 		return new Result(sb.toString(), newCursorPos, newSelecPos);
 	}
 
-	public static Result deleteKorean(String str, int cursorPos, int selecPos) {
+	public Result deleteKorean(String str, int cursorPos, int selecPos) {
 		StringBuilder sb = new StringBuilder(str);
 		int newCursorPos = cursorPos;
 		int newSelecPos = selecPos;
