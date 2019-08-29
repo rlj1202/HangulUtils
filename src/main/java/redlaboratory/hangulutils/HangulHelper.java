@@ -157,18 +157,21 @@ public class HangulHelper {
 	}
 
 	public static int getConsonantIndex(char jamo) {
-		if (jamo < UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE) return -1;
-		return JAMO_IDX_TO_CONSONANT_IDX[jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE];
+		int idx = jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE;
+		if (idx < 0 || 52 <= idx) return -1;
+		return JAMO_IDX_TO_CONSONANT_IDX[idx];
 	}
 
 	public static int getVowelIndex(char jamo) {
-		if (jamo < UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE) return -1;
-		return JAMO_IDX_TO_VOWEL_IDX[jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE];
+		int idx = jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE;
+		if (idx < 0 || 52 <= idx) return -1;
+		return JAMO_IDX_TO_VOWEL_IDX[idx];
 	}
 
 	public static int getFinalConsonantIndex(char jamo) {
-		if (jamo < UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE) return -1;
-		return JAMO_IDX_TO_FINAL_CONSONANT_IDX[jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE];
+		int idx = jamo - UNICODE_HANGUL_COMPATIBILITY_JAMO_BASE;
+		if (idx < 0 || 52 <= idx) return -1;
+		return JAMO_IDX_TO_FINAL_CONSONANT_IDX[idx];
 	}
 
 	public static boolean isConsonantJamo(char c) {
