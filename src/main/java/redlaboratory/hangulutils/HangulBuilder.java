@@ -76,6 +76,19 @@ public class HangulBuilder {
         return flagHangul;
     }
 
+    /**
+     * Returns hangul character builder currently builds
+     * @return
+     */
+    public char getBufferChar() {
+        return combineHanguls(jamos);
+    }
+
+    /**
+     * Receives stroke and builds characters
+     * @param c stroke character
+     * @return Result
+     */
     public Result add(char c) {
         if (!isLatinLetter(c) && !isHangulJamo(c)) {
             flagCombine = false;
@@ -153,7 +166,7 @@ public class HangulBuilder {
     }
 
     /**
-     * Perform backspace function
+     * Performs backspace function
      * @return Result
      */
     public Result remove() {
