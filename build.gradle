@@ -22,7 +22,7 @@ sourceSets {
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-version = '2.0.2'
+version = '2.1.0'
 
 compileJava.options.encoding = 'utf-8'
 compileTestJava.options.encoding = 'utf-8'

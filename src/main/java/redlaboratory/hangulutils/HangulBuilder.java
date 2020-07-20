@@ -77,11 +77,11 @@ public class HangulBuilder {
     }
 
     /**
-     * Returns hangul character builder currently builds
+     * Returns hangul characters builder currently builds
      * @return
      */
-    public char getBufferChar() {
-        return combineHanguls(jamos);
+    public char[] getBufferChars() {
+        return jamos;
     }
 
     /**
